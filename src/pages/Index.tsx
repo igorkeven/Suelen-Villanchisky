@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { FaTelegramPlane } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -105,10 +106,21 @@ const Index = () => {
               
               {consented && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-                  <Button className="premium-button text-lg px-8 py-6">
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Acessar Conteúdo Exclusivo
-                  </Button>
+   <Button
+  asChild
+  className="text-lg px-8 py-6 bg-[#229ED9] hover:bg-[#1F8DC3] text-white shadow-md rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#229ED9]/40"
+>
+  <a
+    href="https://t.me/SEU_CANAL_TELEGRAM?start=site"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Entrar no Telegram (conteúdo grátis)"
+  >
+    <FaTelegramPlane className="w-5 h-5 mr-2" />
+    Entrar no Telegram (Grátis)
+  </a>
+</Button>
+
                   
                   <Link to="/previews">
                     <Button variant="outline" className="border-white/30 text-white hover:bg-white/20 text-lg px-8 py-6">
