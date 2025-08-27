@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark Glam Design System - Criadora de Conteúdo Adulto Premium */
+
+@layer base {
+  :root {
+    /* Dark glam base colors */
+    --background: 225 15% 4.3%; /* #0B0B0F - quase preto */
+    --foreground: 210 40% 98%; /* branco suave */
+    
+    /* Superfícies com glassmorphism */
+    --card: 220 13% 9.8%; /* #111827 */
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 220 13% 9.8%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Primary - Rosa Carmim para CTAs pagos */
+    --primary: 347 77% 50%; /* #E11D48 */
+    --primary-foreground: 210 40% 98%;
+    
+    /* Secondary - Violeta para destaques */
+    --secondary: 258 90% 66%; /* #8B5CF6 */
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Muted tones */
+    --muted: 220 13% 9.8%;
+    --muted-foreground: 220 8.9% 46.1%;
+    
+    /* Accent glassmorphism */
+    --accent: 220 13% 9.8%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Borders com transparência */
+    --border: 220 13% 18%;
+    --input: 220 13% 18%;
+    --ring: 347 77% 50%;
+    
+    /* Glassmorphism e design premium */
+    --glass-bg: 220 13% 9.8% / 0.7;
+    --glass-border: 210 40% 98% / 0.1;
+    --backdrop-blur: 16px;
+    
+    /* Gradients premium */
+    --gradient-primary: linear-gradient(135deg, hsl(347 77% 50%), hsl(347 77% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(258 90% 66%), hsl(258 90% 76%));
+    --gradient-glass: linear-gradient(135deg, hsl(var(--glass-bg)), hsl(220 13% 9.8% / 0.4));
+    
+    /* Shadows premium */
+    --shadow-premium: 0 25px 50px -12px hsl(347 77% 50% / 0.25);
+    --shadow-glass: 0 8px 32px hsl(0 0% 0% / 0.37);
+    
+    --radius: 1rem; /* rounded-2xl para premium look */
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Utilitários Premium */
+@layer components {
+  .glass-card {
+    @apply bg-card/70 backdrop-blur-md border border-white/10 rounded-2xl shadow-glass;
+  }
+  
+  .premium-button {
+    @apply bg-gradient-to-r from-primary to-primary/90 hover:opacity-90 text-primary-foreground font-semibold px-8 py-4 rounded-2xl shadow-premium transition-all duration-300;
+  }
+  
+  .secondary-button {
+    @apply bg-gradient-to-r from-secondary to-secondary/90 hover:opacity-90 text-secondary-foreground font-semibold px-6 py-3 rounded-2xl transition-all duration-300;
+  }
+  
+  .age-gate-blur {
+    @apply backdrop-blur-xl bg-black/50;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
