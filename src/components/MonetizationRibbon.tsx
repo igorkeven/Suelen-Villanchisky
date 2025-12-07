@@ -1,10 +1,32 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Crown, Star, Flame, Link as LinkIcon } from "lucide-react";
-import { FaTelegramPlane} from "react-icons/fa";
+import {
+  ExternalLink,
+  Crown,
+  Star,
+  Flame,
+  Link as LinkIcon,
+} from "lucide-react";
+import {
+  FaTelegramPlane,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+  FaLink,
+} from "react-icons/fa";
 import { useAdultConsent } from "@/hooks/useAdultConsent";
+import { useSocialLinks } from "@/hooks/useSiteContent";
 
-type PlatformKey = "topfans" | "privacy" | "telegram" | "default";
+type PlatformKey =
+  | "topfans"
+  | "privacy"
+  | "telegram"
+  | "instagram"
+  | "x"
+  | "whatsapp"
+  | "linktree"
+  | "onlyfans"
+  | "default";
 type Variant = "solid" | "inverted" | "tint";
 
 type PlatformItem = {
@@ -28,11 +50,80 @@ const BRAND_STYLES: Record<
     short: string;
   }
 > = {
-  topfans:  { variant: "solid",    bg: "#7C3AED", hover: "#6D28D9", fg: "#FFFFFF", icon: Star,           short: "TopFans" },
+  topfans: {
+    variant: "solid",
+    bg: "#7C3AED",
+    hover: "#6D28D9",
+    fg: "#FFFFFF",
+    icon: Star,
+    short: "TopFans",
+  },
   // 👇 Privacy agora INVERTED (fundo claro) para contrastar no tema dark
-  privacy:  { variant: "inverted", bg: "#F8FAFC", hover: "#E5E7EB", fg: "#111827", border: "#CBD5E1", icon: Crown, short: "Privacy" },
-  telegram: { variant: "solid",    bg: "#229ED9", hover: "#1F8DC3", fg: "#FFFFFF", icon: FaTelegramPlane, short: "Telegram" },
-  default:  { variant: "solid",    bg: "#E11D48", hover: "#C41041", fg: "#FFFFFF", icon: Flame,          short: "Premium" },
+  privacy: {
+    variant: "inverted",
+    bg: "#F8FAFC",
+    hover: "#E5E7EB",
+    fg: "#111827",
+    border: "#CBD5E1",
+    icon: Crown,
+    short: "Privacy",
+  },
+  telegram: {
+    variant: "solid",
+    bg: "#229ED9",
+    hover: "#1F8DC3",
+    fg: "#FFFFFF",
+    icon: FaTelegramPlane,
+    short: "Telegram",
+  },
+  instagram: {
+    variant: "solid",
+    bg: "#E1306C",
+    hover: "#C1265C",
+    fg: "#FFFFFF",
+    icon: FaInstagram,
+    short: "Instagram",
+  },
+  x: {
+    variant: "solid",
+    bg: "#000000",
+    hover: "#111827",
+    fg: "#FFFFFF",
+    icon: FaTwitter,
+    short: "X",
+  },
+  whatsapp: {
+    variant: "solid",
+    bg: "#25D366",
+    hover: "#1DA851",
+    fg: "#FFFFFF",
+    icon: FaWhatsapp,
+    short: "WhatsApp",
+  },
+  linktree: {
+    variant: "solid",
+    bg: "#39E09B",
+    hover: "#2FC586",
+    fg: "#0F172A",
+    icon: FaLink,
+    short: "Linktree",
+  },
+  onlyfans: {
+    variant: "solid",
+    bg: "#00AFF0",
+    hover: "#0D9AD1",
+    fg: "#FFFFFF",
+    icon: Star,
+    short: "OnlyFans",
+  },
+  default: {
+    variant: "solid",
+    bg: "#E11D48",
+    hover: "#C41041",
+    fg: "#FFFFFF",
+    icon: Flame,
+    short: "Premium",
+  },
 };
 
 
@@ -56,7 +147,25 @@ function guessKeyFromUrl(url: string): PlatformKey {
     if (host.includes("topfans")) return "topfans";
     if (host.includes("privacy.com.br")) return "privacy";
     if (host.includes("t.me") || host.includes("telegram.me")) return "telegram";
+    if (host.includes("instagram.com")) return "instagram";
+    if (host.includes("whatsapp.com")) return "whatsapp";
+    if (host.includes("x.com") || host.includes("twitter.com")) return "x";
+    if (host.includes("linktr.ee") || host.includes("linktree")) return "linktree";
+    if (host.includes("onlyfans")) return "onlyfans";
   } catch {}
+  return "default";
+}
+
+function normalizeKey(iconKey?: string): PlatformKey {
+  const k = (iconKey || "").toLowerCase();
+  if (k === "tg" || k === "telegram") return "telegram";
+  if (k === "priv" || k === "privacy") return "privacy";
+  if (k === "fans" || k === "topfans") return "topfans";
+  if (k === "insta" || k === "instagram") return "instagram";
+  if (k === "x" || k === "twitter") return "x";
+  if (k === "wa" || k === "whatsapp") return "whatsapp";
+  if (k === "tree" || k === "linktree") return "linktree";
+  if (k === "onlyfans") return "onlyfans";
   return "default";
 }
 
@@ -68,15 +177,61 @@ function getBrandMeta(p: PlatformItem) {
   return { ...style, Icon, label, key };
 }
 
-// preencha com suas URLs reais:
-const PLATFORMS: PlatformItem[] = [
-  { name: "TopFans",           url: "https://topfans.me/SEU_PERFIL",   key: "topfans",  priority: true,  shortLabel: "TopFans" },
-  { name: "Privacy",           url: "https://privacy.com.br/SEU_PERFIL", key: "privacy", priority: true,  shortLabel: "Privacy" },
-  { name: "Telegram (Grátis)", url: "https://t.me/SEU_CANAL",          key: "telegram", priority: false, shortLabel: "Telegram" },
+// fallback estático
+const DEFAULT_PLATFORMS: PlatformItem[] = [
+  {
+    name: "TopFans",
+    url: "https://topfans.me/srahot",
+    key: "topfans",
+    priority: true,
+    shortLabel: "TopFans",
+  },
+  {
+    name: "Privacy",
+    url: "https://privacy.com.br/@Casal_hot_047",
+    key: "privacy",
+    priority: true,
+    shortLabel: "Privacy",
+  },
+  {
+    name: "Telegram (Grátis)",
+    url: "https://t.me/+jQIdptSosr02NzIx",
+    key: "telegram",
+    priority: false,
+    shortLabel: "Telegram",
+  },
 ];
 
 export function MonetizationRibbon() {
   const { consented } = useAdultConsent();
+  const { data: socialLinks } = useSocialLinks();
+
+  const resolvedPlatforms: PlatformItem[] = (() => {
+    if (!socialLinks || socialLinks.length === 0) return DEFAULT_PLATFORMS;
+
+    const hasNavbarFlag = socialLinks.some(
+      (s) => typeof s.showOnNavbar === "boolean"
+    );
+
+    const filtered = socialLinks
+      .filter((s) => s.url)
+      .filter((s) =>
+        hasNavbarFlag ? s.showOnNavbar !== false : s.showOnHome !== false
+      )
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .slice(0, 3);
+
+    if (!filtered.length) return DEFAULT_PLATFORMS;
+
+    return filtered.map((s) => ({
+      name: s.name,
+      url: s.url,
+      key: normalizeKey(s.iconKey) || guessKeyFromUrl(s.url),
+      priority: Boolean(s.showOnHero),
+      shortLabel: s.ctaLabel || s.name,
+    }));
+  })();
+
   if (!consented) return null;
 
   return (
@@ -88,7 +243,7 @@ export function MonetizationRibbon() {
             <span className="text-sm text-muted-foreground">🔥 Conteúdo exclusivo nas plataformas:</span>
 
             <div className="flex flex-wrap gap-3">
-              {PLATFORMS.map((p) => {
+              {resolvedPlatforms.map((p) => {
                 const meta = getBrandMeta(p);
 
                 // botão para variantes
@@ -143,7 +298,7 @@ export function MonetizationRibbon() {
 >
   {/* safe area iOS */}
   <div className="grid grid-cols-3 gap-1 p-2">
-    {PLATFORMS.map((p) => {
+    {resolvedPlatforms.map((p) => {
       const meta = getBrandMeta(p);
 
       // Cor base da marca:

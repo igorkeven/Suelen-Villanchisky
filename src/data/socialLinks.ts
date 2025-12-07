@@ -1,0 +1,58 @@
+// src/data/socialLinks.ts
+import { FaTelegramPlane, FaInstagram, FaTwitter } from "react-icons/fa";
+import type { SocialLink } from "@/types/content";
+
+export const defaultSocialLinks: SocialLink[] = [
+  {
+    id: "instagram-suelen",
+    name: "Instagram (Suelen)",
+    url: "https://www.instagram.com/suelen.villanchisky?igsh=ZGNtNzUyaW4xNGox",
+    description: "Fotos e stories diários",
+    iconKey: "instagram",
+    order: 1,
+    color: "bg-gradient-to-br from-pink-500 to-purple-500",
+    iconColor: "text-white",
+    showOnHome: true,
+    showOnNavbar: true,
+    showOnHero: false,
+  },
+  {
+    id: "instagram-casal",
+    name: "Instagram (Casal)",
+    url: "https://www.instagram.com/casal.hot.047",
+    description: "Conteúdo apimentado do casal",
+    iconKey: "instagram",
+    order: 2,
+    color: "bg-gradient-to-br from-red-500 to-orange-500",
+    iconColor: "text-white",
+    showOnHome: true,
+    showOnNavbar: false,
+    showOnHero: false,
+  },
+  {
+    id: "telegram",
+    name: "Canal no Telegram",
+    url: "https://t.me/SEU_CANAL",
+    description: "Grupo exclusivo com avisos e novidades",
+    iconKey: "telegram",
+    order: 3,
+    color: "bg-sky-600",
+    iconColor: "text-white",
+    showOnHome: true,
+    showOnNavbar: true,
+    showOnHero: false,
+  },
+  {
+    id: "x",
+    name: "Twitter / X",
+    url: "https://x.com/SEU_PERFIL",
+    description: "Conteúdo mais livre e quente",
+    iconKey: "x",
+    order: 4,
+    color: "bg-slate-900",
+    iconColor: "text-white",
+    showOnHome: true,
+    showOnNavbar: true,
+    showOnHero: false,
+  },
+] as const;
